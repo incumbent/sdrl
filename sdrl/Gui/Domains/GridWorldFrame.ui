@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Frame</class>
+ <widget class="QFrame" name="Frame">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>774</width>
+    <height>403</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Frame</string>
+  </property>
+  <property name="frameShape">
+   <enum>QFrame::StyledPanel</enum>
+  </property>
+  <property name="frameShadow">
+   <enum>QFrame::Raised</enum>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>171</width>
+     <height>241</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>地图</string>
+   </property>
+   <widget class="QListWidget" name="lstMap">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>151</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="currentRow">
+     <number>6</number>
+    </property>
+    <item>
+     <property name="text">
+      <string>1x2</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1x3</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>2x3</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3x3</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3x4</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3x5-Wall</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>4x5</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>4x12-CliffWorld</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>6x9-Wall</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>10x7-ACC2011</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>10x10-12ftml</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>11x11-Easy</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>11x11-Rooms</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>11x11-TwoRooms</string>
+     </property>
+    </item>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>200</x>
+     <y>20</y>
+     <width>171</width>
+     <height>241</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>算法</string>
+   </property>
+   <widget class="QListWidget" name="lstAgent">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>151</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="currentRow">
+     <number>0</number>
+    </property>
+    <item>
+     <property name="text">
+      <string>QLearning</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Sarsa</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Greedy_GQ</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="btnConfigAgent">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>200</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>参数设置</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_3">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>20</y>
+     <width>171</width>
+     <height>241</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>表示</string>
+   </property>
+   <widget class="QListWidget" name="lstRepresentation">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>151</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="currentRow">
+     <number>0</number>
+    </property>
+    <item>
+     <property name="text">
+      <string>Tabular</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="btnConfigRepresentation">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>200</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>参数设置</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_4">
+   <property name="geometry">
+    <rect>
+     <x>560</x>
+     <y>20</y>
+     <width>171</width>
+     <height>241</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>策略</string>
+   </property>
+   <widget class="QListWidget" name="lstPolicy">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>20</y>
+      <width>151</width>
+      <height>171</height>
+     </rect>
+    </property>
+    <property name="currentRow">
+     <number>0</number>
+    </property>
+    <item>
+     <property name="text">
+      <string>eGreedy</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>UniformRandom</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Gibbs</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="btnConfigPolicy">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>200</y>
+      <width>151</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>参数设置</string>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_5">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>270</y>
+     <width>711</width>
+     <height>71</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>设置</string>
+   </property>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>动作噪声</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="spNoise">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>30</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <double>0.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>1.000000000000000</double>
+    </property>
+    <property name="singleStep">
+     <double>0.100000000000000</double>
+    </property>
+    <property name="value">
+     <double>0.300000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>30</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>终点奖赏</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="spGoalReward">
+    <property name="geometry">
+     <rect>
+      <x>260</x>
+      <y>30</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <double>-999999999.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>999999999.000000000000000</double>
+    </property>
+    <property name="value">
+     <double>1.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>30</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>陷阱奖赏</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="spPitReward">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>30</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <double>-999999999.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>999999999.000000000000000</double>
+    </property>
+    <property name="value">
+     <double>-1.000000000000000</double>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>550</x>
+      <y>30</y>
+      <width>54</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>平时奖赏</string>
+    </property>
+   </widget>
+   <widget class="QDoubleSpinBox" name="spStepReward">
+    <property name="geometry">
+     <rect>
+      <x>610</x>
+      <y>30</y>
+      <width>81</width>
+      <height>22</height>
+     </rect>
+    </property>
+    <property name="decimals">
+     <number>3</number>
+    </property>
+    <property name="minimum">
+     <double>-999999999.000000000000000</double>
+    </property>
+    <property name="maximum">
+     <double>999999999.000000000000000</double>
+    </property>
+    <property name="value">
+     <double>-0.001000000000000</double>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

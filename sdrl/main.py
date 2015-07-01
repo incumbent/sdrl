@@ -1,0 +1,224 @@
+#-*- coding: utf-8 -*-
+import sys
+import os
+import logging
+import traceback
+
+# 将sdrl包路径加入path
+sdrl_dir = os.path.dirname(__file__)
+dn = os.path.dirname(sdrl_dir)
+if not dn in sys.path:
+    sys.path.append(dn)
+
+from PyQt4.QtGui import * 
+from PyQt4.QtCore import *
+from PyQt4 import uic
+
+from sdrl.Gui.Domains.GridWorld import GridWorldFrame
+from sdrl.Gui.Domains.MountainCar import MountainCarFrame
+from sdrl.Gui import *
+
+from rlpy.Experiments import Experiment
+
+# 用于创建子进程，运行实验
+import multiprocessing
+import threading
+
+import matplotlib
+import matplotlib.pyplot as plt
+#matplotlib.use('qt4agg')
+
+'''
+# 用于Report
+import Image
+import cStringIO
+import reportlab
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch, cm
+from reportlab.lib.utils import ImageReader
+'''
+
+
+class MainForm( QMainWindow ):
+    def __init__( self ):
+        super( MainForm, self ).__init__()
+        uic.loadUi( os.path.join(sdrl_dir, 'main.ui'), self )
+        self.firstOpenExp = True
+    
+    '''菜单-退出'''
+    @pyqtSlot()
+    def on_actionExit_triggered(self):
+        self.close()
+
+    '''菜单-退出'''
+    @pyqtSlot()
+    def on_actionAbout_triggered(self):
+        d = AboutDialog(self)
+        d.setModal(True)
+        d.show()
+
+    '''菜单-GridWorld'''
+    @pyqtSlot()
+    def on_actionGridWorld_triggered(self):
+        self.openExperimentTab(GridWorldFrame)
+    
+    '''菜单-MountainCar'''
+    @pyqtSlot()
+    def on_actionMountainCar_triggered(self):
+        self.openExperimentTab(MountainCarFrame)
+    
+    '''菜单-Acrobot'''
+    @pyqtSlot()
+    def on_actionAcrobot_triggered(self):
+        self.openExperimentTab(AcrobotFrame)
+    
+    '''菜单-关闭标签'''
+    @pyqtSlot(int)
+    def on_tabTask_tabCloseRequested(self, index):
+        self.tabTask.removeTab(index)
+
+    '''运行按钮'''
+    @pyqtSlot()
+    def on_btnRun_clicked(self):
+
+        opt = {}
+        opt['exp_id'] = int(self.spExpId.value())
+        opt['path'] = str(self.txtPath.text())
+
+        # 从当前选择的tab的Frame获得domain和agent
+        domain, agent = self.tabTask.currentWidget().makeComponents()
+        self.currDomain, self.currAgent = domain, agent
+        domain.episodeCap = int(self.spEpisodeCap.value())
+
+        opt['domain'] = domain
+        opt['agent'] = agent
+        opt["checks_per_policy"] = int(self.spChecksPerPolicy.value())
+        opt["max_steps"] = int(self.spMaxSteps.value())
+        opt["num_policy_checks"] = int(self.spPolicyChecks.value())
+
+        # 创建子进程运行实验
+        queue = multiprocessing.Queue()
+        p = multiprocessing.Process(target=runExperiment, args=(opt, self.chkShowSteps.checkState()==Qt.Checked, 
+            self.chkShowLearning.checkState()==Qt.Checked, int(self.spShowPerformance.value()), queue))
+
+        dialog = ExpOutputDialog(self, p, queue)
+        dialog.setModal(False)
+        dialog.show()
+
+        p.start()
+        
+        self.btnReport.setEnabled(True)
+
+
+    '''报告按钮'''
+    @pyqtSlot()
+    def on_btnReport_clicked(self):
+        fig = plt.figure(figsize=(4, 3))
+        plt.plot([1,2,3,4])
+        plt.ylabel('some numbers')
+
+        imgdata = cStringIO.StringIO()
+        fig.savefig(imgdata, format='png')
+        imgdata.seek(0)  # rewind the data
+
+        Image = ImageReader(imgdata)
+
+        c = canvas.Canvas(os.path.join(str(self.txtPath.text()), 'Report.pdf'))
+        c.drawImage(Image, cm, cm, inch, inch)
+        c.save()
+
+    def openExperimentTab(self, expFrameClass):
+        if self.firstOpenExp:
+            self.tabTask.removeTab(0)
+            self.firstOpenExp = False
+        if not self.selectTab(expFrameClass.title):
+            self.tabTask.addTab(expFrameClass(), expFrameClass.title)
+            self.selectTab(expFrameClass.title)
+        self.txtPath.setText('./Results/'+expFrameClass.title)
+
+    # 根据tabText选择对应tab
+    def selectTab(self, tabText):
+        for i in xrange(self.tabTask.count()):
+            if(self.tabTask.tabText(i) == tabText):
+                self.tabTask.setCurrentIndex(i)
+                widget = self.tabTask.currentWidget()
+                #self.tabTask.setWidth( widget.width() )
+                #self.tabTask.setHeight( widget.height() )
+                return True
+        return False
+
+
+'''子进程logger的handler'''
+class OutputHandler(object):
+    def __init__(self, queue):
+        super(OutputHandler, self).__init__()
+        self.queue = queue
+    def handle(self, record):
+        self.queue.put(record)
+
+
+'''
+用子进程运行实验的目标函数
+由于matplotlib不能在线程中使用，将运算和画图过程放在子进程中
+'''
+def runExperiment(opt, visualize_steps, visualize_learning, visualize_performance, q):
+    # Experiment要在子进程中创建，不能直接传创建好的对象（会影响logger的正常工作）
+    exp = Experiment(**opt)
+
+    # 给logger加handler
+    # 子进程的log->MemoryHandler->OutputHandler-> queue <-ExpOutputDialog.receive->QTextEdit
+    # log通过queue在进程间传递，主线程通过thread接收queue中的新消息
+    from logging.handlers import MemoryHandler
+    handler = MemoryHandler(capacity=1024, flushLevel=logging.INFO, target=OutputHandler(q))
+    exp.logger.addHandler(handler)
+
+    exp.run(visualize_steps=visualize_steps,  # should each learning step be shown?
+           visualize_learning=visualize_learning,  # show policy / value function?
+           visualize_performance=visualize_performance)  # show performance runs?
+    exp.plot()
+
+
+'''子进程输出窗口'''
+class ExpOutputDialog( QDialog ):
+    def __init__( self, parent, process, queue ):
+        super( ExpOutputDialog, self ).__init__(parent)
+        uic.loadUi( os.path.join(sdrl_dir, 'Gui', 'ExpOutputDialog.ui'), self )
+        # 把窗口放到左上角，以免被实验画图窗口遮住
+        geo = self.geometry()
+        geo.setX(30)
+        geo.setY(50)
+        self.setGeometry(geo)
+        
+        self.process = process
+        self.queue = queue
+        self.t = threading.Thread(target=self.receive)
+        self.t.daemon = True
+        self.t.start()
+
+    @pyqtSlot()
+    def on_btnStop_clicked(self):
+        try:
+            self.process.terminate()
+            self.t = None
+        except:
+            traceback.print_exc()
+
+    # 接受子进程log的线程函数
+    def receive(self):
+        while True:
+            try:
+                record = self.queue.get()
+                self.txtOutput.append(record.msg) # TODO thread unsafe
+            except (KeyboardInterrupt, SystemExit):
+                raise
+            except EOFError:
+                break
+            except:
+                traceback.print_exc()
+
+
+if __name__=="__main__": 
+    app = QApplication( sys.argv )
+    f = MainForm()
+    f.show()
+    sys.exit(app.exec_())
