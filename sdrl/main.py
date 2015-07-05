@@ -5,7 +5,8 @@ import logging
 import traceback
 
 # 将sdrl包路径加入path
-sdrl_dir = os.path.dirname(__file__)
+fn = os.path.abspath(sys.argv[0])
+sdrl_dir = os.path.dirname(fn)
 dn = os.path.dirname(sdrl_dir)
 if not dn in sys.path:
     sys.path.append(dn)
