@@ -7,6 +7,9 @@ from sdrl.Gui.Policies.eGreedy import eGreedyDialog
 from rlpy.Representations import *
 from rlpy.Agents import *
 from rlpy.Policies import *
+from rlpy.Experiments import *
+
+import matplotlib
 
 '''
 所有设置窗口全放在这里
@@ -64,3 +67,28 @@ class AgentFactory(object):
             return AgentFactory._commonAgentGet(config, name, representation, policy, SARSA)
         elif name == 'Greedy_GQ':
             return AgentFactory._commonAgentGet(config, name, representation, policy, Greedy_GQ)
+
+
+class ExperimentFactory(object):
+    @staticmethod
+    def get(**opt):
+        if matplotlib.get_backend().lower() == 'qt4agg':
+            from PyQt4 import QtGui
+            '''
+            当matplotlib的backend使用qt4agg时，interactive mode会卡住
+            这里对Experiemnt进行hack，手动处理event loop
+            '''
+            class QtPlottingExperiment(Experiment):
+                '''
+                选择hack这个函数是因为它在每个step都会被调用一次
+                从而可以在每个画图周期处理event loop
+                与函数本身的作用无关
+                '''
+                def _gather_transition_statistics(self, s, a, sn, r, learning=False):
+                    super(QtPlottingExperiment, self)._gather_transition_statistics(s, a, sn, r, learning)
+                    QtGui.qApp.processEvents()
+
+            return QtPlottingExperiment(**opt)
+
+        else:
+            return Experiment(**opt)

@@ -18,8 +18,7 @@ from PyQt4 import uic
 from sdrl.Gui.Domains.GridWorld import GridWorldFrame
 from sdrl.Gui.Domains.MountainCar import MountainCarFrame
 from sdrl.Gui import *
-
-from rlpy.Experiments import Experiment
+from sdrl.Gui.Utils import ExperimentFactory
 
 # 用于创建子进程，运行实验
 import multiprocessing
@@ -164,7 +163,7 @@ class OutputHandler(object):
 '''
 def runExperiment(opt, visualize_steps, visualize_learning, visualize_performance, q):
     # Experiment要在子进程中创建，不能直接传创建好的对象（会影响logger的正常工作）
-    exp = Experiment(**opt)
+    exp = ExperimentFactory.get(**opt)
 
     # 给logger加handler
     # 子进程的log->MemoryHandler->OutputHandler-> queue <-ExpOutputDialog.receive->QTextEdit

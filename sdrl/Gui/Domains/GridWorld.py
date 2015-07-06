@@ -6,16 +6,6 @@ from PyQt4 import uic
 from sdrl.Gui import BaseFrame
 from sdrl.Gui.Utils import *
 from rlpy.Domains import GridWorld
-import matplotlib.pyplot as plt
-
-
-class HackedGridWorld(GridWorld):
-    def showLearning(self, representation):
-        super(HackedGridWorld, self).showLearning(representation)
-        plt.pause(0.001)
-    def showDomain(self, a):
-        super(HackedGridWorld, self).showDomain(a)
-        plt.pause(0.001)
 
 
 class GridWorldFrame( BaseFrame ):
