@@ -213,9 +213,16 @@ class ExpOutputDialog( QDialog ):
         self.t = self.Receiver(queue)
         self.connect(self.t, SIGNAL('newMessage'), self.appendText)
         self.t.start()
+    
+    def closeEvent(self, event):
+        self.stopExperiment()
+        event.accept()
 
     @pyqtSlot()
     def on_btnStop_clicked(self):
+        self.stopExperiment()
+
+    def stopExperiment(self):
         try:
             self.process.terminate()
             self.t = None
