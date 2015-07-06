@@ -166,7 +166,7 @@ def runExperiment(opt, visualize_steps, visualize_learning, visualize_performanc
     exp = ExperimentFactory.get(**opt)
 
     # 给logger加handler
-    # 子进程的log->MemoryHandler->OutputHandler-> queue <-ExpOutputDialog.receive->QTextEdit
+    # 子进程的log->MemoryHandler->OutputHandler-> queue <-ExpOutputDialog.Receiver->SIGNAL->QTextEdit
     # log通过queue在进程间传递，主线程通过thread接收queue中的新消息
     from logging.handlers import MemoryHandler
     handler = MemoryHandler(capacity=1024, flushLevel=logging.INFO, target=OutputHandler(q))
@@ -180,6 +180,25 @@ def runExperiment(opt, visualize_steps, visualize_learning, visualize_performanc
 
 '''子进程输出窗口'''
 class ExpOutputDialog( QDialog ):
+
+    '''接收子进程log的线程'''
+    class Receiver(QThread):
+        def __init__(self, queue):
+            QThread.__init__(self)
+            self.queue = queue
+        def run(self):
+            while True:
+                try:
+                    record = self.queue.get()
+                    self.emit(SIGNAL('newMessage'), record.msg)
+                    #self.txtOutput.append(record.msg) # TODO thread unsafe
+                except (KeyboardInterrupt, SystemExit):
+                    raise
+                except EOFError:
+                    break
+                except:
+                    traceback.print_exc()
+
     def __init__( self, parent, process, queue ):
         super( ExpOutputDialog, self ).__init__(parent)
         uic.loadUi( os.path.join(sdrl_dir, 'Gui', 'ExpOutputDialog.ui'), self )
@@ -191,8 +210,8 @@ class ExpOutputDialog( QDialog ):
         
         self.process = process
         self.queue = queue
-        self.t = threading.Thread(target=self.receive)
-        self.t.daemon = True
+        self.t = self.Receiver(queue)
+        self.connect(self.t, SIGNAL('newMessage'), self.appendText)
         self.t.start()
 
     @pyqtSlot()
@@ -203,18 +222,9 @@ class ExpOutputDialog( QDialog ):
         except:
             traceback.print_exc()
 
-    # 接受子进程log的线程函数
-    def receive(self):
-        while True:
-            try:
-                record = self.queue.get()
-                self.txtOutput.append(record.msg) # TODO thread unsafe
-            except (KeyboardInterrupt, SystemExit):
-                raise
-            except EOFError:
-                break
-            except:
-                traceback.print_exc()
+    def appendText(self, msg):
+        self.txtOutput.append(msg)
+
 
 
 if __name__=="__main__": 
