@@ -468,6 +468,7 @@
     <property name="title">
      <string>工具</string>
     </property>
+    <addaction name="actionLinePlotter"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="title">
@@ -503,6 +504,11 @@
   <action name="actionAbout">
    <property name="text">
     <string>关于</string>
+   </property>
+  </action>
+  <action name="actionLinePlotter">
+   <property name="text">
+    <string>画平面折线图</string>
    </property>
   </action>
  </widget>

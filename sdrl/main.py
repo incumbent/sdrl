@@ -50,7 +50,7 @@ class MainForm( QMainWindow ):
     def on_actionExit_triggered(self):
         self.close()
 
-    '''菜单-退出'''
+    '''菜单-关于'''
     @pyqtSlot()
     def on_actionAbout_triggered(self):
         d = AboutDialog(self)
@@ -71,8 +71,14 @@ class MainForm( QMainWindow ):
     @pyqtSlot()
     def on_actionAcrobot_triggered(self):
         self.openExperimentTab(AcrobotFrame)
+
+    '''菜单-画平面折线图'''
+    @pyqtSlot()
+    def on_actionLinePlotter_triggered(self):
+        from sdrl.Gui.Tools.LinePlotter import LinePlotterWindow
+        LinePlotterWindow(self).show()
     
-    '''菜单-关闭标签'''
+    '''关闭tab标签'''
     @pyqtSlot(int)
     def on_tabTask_tabCloseRequested(self, index):
         self.tabTask.removeTab(index)
