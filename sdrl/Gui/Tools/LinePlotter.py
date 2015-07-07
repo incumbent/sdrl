@@ -69,9 +69,9 @@ class LinePlotterWindow( QMainWindow ):
     def collectConfigs(self):
         self.config['xlim'] = [self.spXlim0.value(), self.spXlim1.value()]
         self.config['ylim'] = [self.spYlim0.value(), self.spYlim1.value()]
-        self.config['title'] = str(self.txtTitle.text())
-        self.config['xlabel'] = str(self.txtXLabel.text())
-        self.config['ylabel'] = str(self.txtYLabel.text())
+        self.config['title'] = self.txtTitle.text()
+        self.config['xlabel'] = self.txtXLabel.text()
+        self.config['ylabel'] = self.txtYLabel.text()
         self.config['showLegend'] = (self.chkShowLegend.checkState()==Qt.Checked)
         
     @pyqtSlot()
@@ -189,7 +189,7 @@ class LinePlotterDataSpec( QFrame ):
     def __init__( self, data=None ):
         super( LinePlotterDataSpec, self ).__init__()
         uic.loadUi( os.path.join(os.path.dirname(__file__), 'LinePlotterDataSpec.ui'), self )
-        self.lineColor = [1,1,1]
+        self.lineColor = [0,0,0]
         if data is not None:
             self.applyData(data)
 
@@ -205,8 +205,8 @@ class LinePlotterDataSpec( QFrame ):
 
     def data(self):
         d = {}
-        d['ydata'] = np.loadtxt(StringIO( str(self.txtData.toPlainText()) ))
-        d['label'] = str(self.txtLabel.text())
+        d['ydata'] = np.loadtxt(StringIO( self.txtData.toPlainText() ))
+        d['label'] = self.txtLabel.text()
         linestyle = self.cbLineStyle.currentIndex()
         if linestyle == 0:
             d['linestyle'] = '-'
