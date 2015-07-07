@@ -83,6 +83,12 @@ class MainForm( QMainWindow ):
     def on_tabTask_tabCloseRequested(self, index):
         self.tabTask.removeTab(index)
 
+    '''当前标签改变'''
+    @pyqtSlot(int)
+    def on_tabTask_currentChanged(self, index):
+        if index >= 0:
+            self.loadExperimentConfig(self.tabTask.widget(index).experimentConfig)
+
     '''运行按钮'''
     @pyqtSlot()
     def on_btnRun_clicked(self):
@@ -140,7 +146,18 @@ class MainForm( QMainWindow ):
         if not self.selectTab(expFrameClass.title):
             self.tabTask.addTab(expFrameClass(), expFrameClass.title)
             self.selectTab(expFrameClass.title)
-        self.txtPath.setText('./Results/'+expFrameClass.title)
+
+    def loadExperimentConfig(self, config):
+        c = config
+        self.chkShowSteps.setCheckState(Qt.Checked if c['showSteps'] else Qt.Unchecked)
+        self.chkShowLearning.setCheckState(Qt.Checked if c['showLearning'] else Qt.Unchecked)
+        self.spShowPerformance.setValue(c['showPerformance'])
+        self.spExpId.setValue(c['expId'])
+        self.spEpisodeCap.setValue(c['episodeCap'])
+        self.spMaxSteps.setValue(c['maxSteps'])
+        self.spPolicyChecks.setValue(c['policyChecks'])
+        self.spChecksPerPolicy.setValue(c['checksPerPolicy'])
+        self.txtPath.setText(c['path'])
 
     # 根据tabText选择对应tab
     def selectTab(self, tabText):

@@ -13,6 +13,9 @@ class BaseFrame( QFrame ):
         self.agentConfig = {}
         self.representationConfig = {}
         self.policyConfig = {}
+        self.experimentConfig = {'expId':1, 'path':'./Results/'+self.title, 'episodeCap':1000,
+            'maxSteps':2000, 'policyChecks':10, 'checksPerPolicy':50,
+            'showSteps':False, 'showLearning':True, 'showPerformance':1}
         super( BaseFrame, self ).__init__(parent)
         uic.loadUi( uifile, self )
         self.initConfig()
