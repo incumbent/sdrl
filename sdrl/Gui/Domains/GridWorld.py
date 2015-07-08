@@ -22,6 +22,7 @@ class GridWorldFrame( BaseFrame ):
         self.agentConfig['Greedy_GQ'] = {'lambda':0., 'gamma':0.9, 'alpha':0.1, 'alpha_decay_mode':'boyan', 'boyan_N0':100}
         self.policyConfig['eGreedy'] = {'epsilon':0.2}
         self.representationConfig['Tabular'] = {'discretization':20}
+        self.representationConfig['IncrementalTabular'] = {'discretization':20}
 
     @pyqtSlot()
     def on_btnConfigAgent_clicked(self):

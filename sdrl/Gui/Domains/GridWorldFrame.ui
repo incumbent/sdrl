@@ -198,6 +198,11 @@
       <string>Tabular</string>
      </property>
     </item>
+    <item>
+     <property name="text">
+      <string>IncrementalTabular</string>
+     </property>
+    </item>
    </widget>
    <widget class="QPushButton" name="btnConfigRepresentation">
     <property name="geometry">

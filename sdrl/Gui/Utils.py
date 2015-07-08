@@ -20,6 +20,7 @@ DialogMapping = {'QLearning':CommonAgentDialog,
                  'Greedy_GQ':CommonAgentDialog,
                  'RBF':RBFDialog,
                  'Tabular':TabularDialog,
+                 'IncrementalTabular':TabularDialog,
                  'eGreedy':eGreedyDialog,
                  'UniformRandom':None,
                  'Gibbs':None,
@@ -32,6 +33,8 @@ class RepresentationFactory(object):
             config = config[name]
         if name == 'Tabular':
             return Tabular(domain, discretization=config['discretization'])
+        if name == 'IncrementalTabular':
+            return IncrementalTabular(domain, discretization=config['discretization'])
         elif name == 'RBF':
             pass
 
