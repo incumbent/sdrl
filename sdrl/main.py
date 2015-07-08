@@ -95,7 +95,7 @@ class MainForm( QMainWindow ):
 
         opt = {}
         opt['exp_id'] = int(self.spExpId.value())
-        opt['path'] = str(self.txtPath.text())
+        opt['path'] = unicode(self.txtPath.text())
 
         # 从当前选择的tab的Frame获得domain和agent
         domain, agent = self.tabTask.currentWidget().makeComponents()
@@ -135,7 +135,7 @@ class MainForm( QMainWindow ):
 
         Image = ImageReader(imgdata)
 
-        c = canvas.Canvas(os.path.join(str(self.txtPath.text()), 'Report.pdf'))
+        c = canvas.Canvas(os.path.join(unicode(self.txtPath.text()), 'Report.pdf'))
         c.drawImage(Image, cm, cm, inch, inch)
         c.save()
 

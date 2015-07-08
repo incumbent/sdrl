@@ -168,7 +168,7 @@ class LinePlotterDataEditor( QDialog ):
         self.close()
 
     def newTab(self):
-        title = u'线'+str(self.tab.count()+1)
+        title = u'线'+unicode(self.tab.count()+1)
         index = self.tab.addTab(LinePlotterDataSpec(), title)
         self.tab.setCurrentIndex(index)
 
@@ -180,7 +180,7 @@ class LinePlotterDataEditor( QDialog ):
 
     def applyData(self):
         for d in self.data:
-            title = u'线'+str(self.tab.count()+1)
+            title = u'线'+unicode(self.tab.count()+1)
             self.tab.addTab(LinePlotterDataSpec(data=d), title)
 
 
