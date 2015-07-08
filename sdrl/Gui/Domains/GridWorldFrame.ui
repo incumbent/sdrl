@@ -203,6 +203,11 @@
       <string>IncrementalTabular</string>
      </property>
     </item>
+    <item>
+     <property name="text">
+      <string>IndependentDiscretization</string>
+     </property>
+    </item>
    </widget>
    <widget class="QPushButton" name="btnConfigRepresentation">
     <property name="geometry">
