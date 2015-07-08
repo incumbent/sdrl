@@ -42,6 +42,7 @@ from reportlab.lib.utils import ImageReader
 class MainForm( QMainWindow ):
     def __init__( self ):
         super( MainForm, self ).__init__()
+        self.setAttribute(Qt.WA_DeleteOnClose) # 保证关闭窗口时不会Crash
         uic.loadUi( os.path.join(sdrl_dir, 'main.ui'), self )
         self.firstOpenExp = True
     
