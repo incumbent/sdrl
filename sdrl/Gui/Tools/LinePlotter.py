@@ -20,29 +20,17 @@ class LinePlotterWindow( QMainWindow ):
 
     def __init__( self, parent=None ):
         super( LinePlotterWindow, self ).__init__(parent)
+        self.setAttribute(Qt.WA_DeleteOnClose)
         uic.loadUi( os.path.join(os.path.dirname(__file__), 'LinePlotterWindow.ui'), self )
         self.config = {}
-        self.canvas = None
-        self.toolbar = None
-
-    def showFigure(self, fig):
-        self.removeFigure()
+        fig = Figure()
+        self.axes = fig.add_subplot(111)
         self.canvas = FigureCanvas(fig)
         self.mplLayout.addWidget(self.canvas)
         self.canvas.draw()
         self.toolbar = NavigationToolbar(self.canvas, 
                 self.mplWidget, coordinates=True)
         self.mplLayout.addWidget(self.toolbar)
-
-    def removeFigure(self):
-        if self.canvas is not None:
-            self.mplLayout.removeWidget(self.canvas)
-            self.canvas.close()
-            self.canvas = None
-        if self.toolbar is not None:
-            self.mplLayout.removeWidget(self.toolbar)
-            self.toolbar.close()
-            self.toolbar = None
 
     def saveConfig(self, filename):
         self.collectConfigs()
@@ -108,8 +96,8 @@ class LinePlotterWindow( QMainWindow ):
     def on_btnPlot_clicked(self):
         self.collectConfigs()
 
-        fig = Figure()
-        ax = fig.add_subplot(111)
+        ax = self.axes
+        ax.cla()
 
         for d in self.config['data']:
             dd = d['ydata']
@@ -128,13 +116,8 @@ class LinePlotterWindow( QMainWindow ):
         if self.config['showLegend']:
             ax.legend()
             #ax.legend(bbox_to_anchor=(0.9,0.9))
+        self.canvas.draw()
 
-        self.showFigure(fig)
-
-    def closeEvent(self, event):
-        self.removeFigure()
-        event.accept()
-        
 
 
 class LinePlotterDataEditor( QDialog ):
