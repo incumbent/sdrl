@@ -169,6 +169,8 @@ class LinePlotterDataEditor( QDialog ):
 
 class LinePlotterDataSpec( QFrame ):
 
+    _lineStyles = ['-', '--', ':', '-.', 'None']
+
     def __init__( self, data=None ):
         super( LinePlotterDataSpec, self ).__init__()
         uic.loadUi( os.path.join(os.path.dirname(__file__), 'LinePlotterDataSpec.ui'), self )
@@ -190,17 +192,7 @@ class LinePlotterDataSpec( QFrame ):
         d = {}
         d['ydata'] = np.loadtxt(StringIO( self.txtData.toPlainText() ))
         d['label'] = self.txtLabel.text()
-        linestyle = self.cbLineStyle.currentIndex()
-        if linestyle == 0:
-            d['linestyle'] = '-'
-        elif linestyle == 1:
-            d['linestyle'] = '--'
-        elif linestyle == 2:
-            d['linestyle'] = ':'
-        elif linestyle == 3:
-            d['linestyle'] = '-.'
-        elif linestyle == 4:
-            d['linestyle'] = 'None'
+        d['linestyle'] = self._lineStyles[self.cbLineStyle.currentIndex()]
         d['linewidth'] = self.spLineWidth.value()
         d['color'] = self.lineColor
         return d
@@ -210,16 +202,8 @@ class LinePlotterDataSpec( QFrame ):
         np.savetxt(sdata, data['ydata'], fmt='%.3f')
         self.txtData.setText(sdata.getvalue())
         self.txtLabel.setText(data['label'])
-        if data['linestyle'] == '-':
-            self.cbLineStyle.setCurrentIndex(0)
-        elif data['linestyle'] == '--':
-            self.cbLineStyle.setCurrentIndex(1)
-        elif data['linestyle'] == ':':
-            self.cbLineStyle.setCurrentIndex(2)
-        elif data['linestyle'] == '-.':
-            self.cbLineStyle.setCurrentIndex(3)
-        elif data['linestyle'] == 'None':
-            self.cbLineStyle.setCurrentIndex(4)
+        lsindex = self._lineStyles.index(data['linestyle'])
+        self.cbLineStyle.setCurrentIndex(lsindex)
         self.spLineWidth.setValue(data['linewidth'])
         self.lineColor = data['color']
 
