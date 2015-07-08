@@ -17,6 +17,7 @@ from PyQt4 import uic
 
 from sdrl.Gui.Domains.GridWorld import GridWorldFrame
 from sdrl.Gui.Domains.MountainCar import MountainCarFrame
+from sdrl.Gui.Domains.SystemAdministrator import SystemAdministratorFrame
 from sdrl.Gui import *
 from sdrl.Gui.Utils import ExperimentFactory
 
@@ -72,6 +73,11 @@ class MainForm( QMainWindow ):
     @pyqtSlot()
     def on_actionAcrobot_triggered(self):
         self.openExperimentTab(AcrobotFrame)
+
+    '''菜单-SystemAdministrator'''
+    @pyqtSlot()
+    def on_actionSystemAdministrator_triggered(self):
+        self.openExperimentTab(SystemAdministratorFrame)
 
     '''菜单-画平面折线图'''
     @pyqtSlot()
