@@ -114,7 +114,7 @@ class LinePlotterWindow( QMainWindow ):
         ax.set_ylabel(self.config['ylabel'])
 
         if self.config['showLegend']:
-            ax.legend()
+            ax.legend(loc=0)
             #ax.legend(bbox_to_anchor=(0.9,0.9))
         self.canvas.draw()
 
