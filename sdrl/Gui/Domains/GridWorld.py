@@ -40,12 +40,12 @@ class GridWorldFrame( BaseFrame ):
 
     def makeComponents(self):
         map_type = str(self.lstMap.currentItem().text())
-        noise = float(self.spNoise.value())
+        noise = self.spNoise.value()
         maze = os.path.join(GridWorld.default_map_dir, map_type+'.txt')
         domain = GridWorld(maze, noise=noise)
-        domain.GOAL_REWARD = float(self.spGoalReward.value())
-        domain.PIT_REWARD = float(self.spPitReward.value())
-        domain.STEP_REWARD = float(self.spStepReward.value())
+        domain.GOAL_REWARD = self.spGoalReward.value()
+        domain.PIT_REWARD = self.spPitReward.value()
+        domain.STEP_REWARD = self.spStepReward.value()
 
         representation = RepresentationFactory.get(config=self.representationConfig,
             name=str(self.lstRepresentation.currentItem().text()),

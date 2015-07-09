@@ -101,19 +101,19 @@ class MainForm( QMainWindow ):
     def on_btnRun_clicked(self):
 
         opt = {}
-        opt['exp_id'] = int(self.spExpId.value())
+        opt['exp_id'] = self.spExpId.value()
         opt['path'] = unicode(self.txtPath.text())
 
         # 从当前选择的tab的Frame获得domain和agent
         domain, agent = self.tabTask.currentWidget().makeComponents()
         self.currDomain, self.currAgent = domain, agent
-        domain.episodeCap = int(self.spEpisodeCap.value())
+        domain.episodeCap = self.spEpisodeCap.value()
 
         opt['domain'] = domain
         opt['agent'] = agent
-        opt["checks_per_policy"] = int(self.spChecksPerPolicy.value())
-        opt["max_steps"] = int(self.spMaxSteps.value())
-        opt["num_policy_checks"] = int(self.spPolicyChecks.value())
+        opt["checks_per_policy"] = self.spChecksPerPolicy.value()
+        opt["max_steps"] = self.spMaxSteps.value()
+        opt["num_policy_checks"] = self.spPolicyChecks.value()
 
         # 创建子进程运行实验
         queue = multiprocessing.Queue()

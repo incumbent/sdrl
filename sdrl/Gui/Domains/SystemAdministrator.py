@@ -46,9 +46,9 @@ class SystemAdministratorFrame( BaseFrame ):
         map_type = str(self.lstMap.currentItem().text())
         domain = SystemAdministrator(networkmapname=os.path.join(
                 SystemAdministrator.default_map_dir, map_type+'.txt'))
-        domain.P_SELF_REPAIR = float(self.spSelfRepairProb.value())
-        domain.P_REBOOT_REPAIR = float(self.spRobotRepairProb.value())
-        domain.REBOOT_REWARD = float(self.spRobotReward.value())
+        domain.P_SELF_REPAIR = self.spSelfRepairProb.value()
+        domain.P_REBOOT_REPAIR = self.spRobotRepairProb.value()
+        domain.REBOOT_REWARD = self.spRobotReward.value()
 
         representation = RepresentationFactory.get(config=self.representationConfig,
             name=str(self.lstRepresentation.currentItem().text()),
