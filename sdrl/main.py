@@ -117,8 +117,8 @@ class MainForm( QMainWindow ):
 
         # 创建子进程运行实验
         queue = multiprocessing.Queue()
-        p = multiprocessing.Process(target=runExperiment, args=(opt, self.chkShowSteps.checkState()==Qt.Checked, 
-            self.chkShowLearning.checkState()==Qt.Checked, int(self.spShowPerformance.value()), queue))
+        p = multiprocessing.Process(target=runExperiment, args=(opt, self.chkShowSteps.isChecked(), 
+            self.chkShowLearning.isChecked(), self.spShowPerformance.value(), queue))
 
         dialog = ExpOutputDialog(self, p, queue)
         dialog.setModal(False)
@@ -156,8 +156,8 @@ class MainForm( QMainWindow ):
 
     def loadExperimentConfig(self, config):
         c = config
-        self.chkShowSteps.setCheckState(Qt.Checked if c['showSteps'] else Qt.Unchecked)
-        self.chkShowLearning.setCheckState(Qt.Checked if c['showLearning'] else Qt.Unchecked)
+        self.chkShowSteps.setChecked(c['showSteps'])
+        self.chkShowLearning.setChecked(c['showLearning'])
         self.spShowPerformance.setValue(c['showPerformance'])
         self.spExpId.setValue(c['expId'])
         self.spEpisodeCap.setValue(c['episodeCap'])

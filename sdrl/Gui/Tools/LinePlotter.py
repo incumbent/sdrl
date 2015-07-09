@@ -52,7 +52,7 @@ class LinePlotterWindow( QMainWindow ):
         self.spXlim1.setValue(config['xlim'][1])
         self.spYlim0.setValue(config['ylim'][0])
         self.spYlim1.setValue(config['ylim'][1])
-        self.chkShowLegend.setCheckState(Qt.Checked if config['showLegend'] else Qt.Unhecked)
+        self.chkShowLegend.setChecked(config['showLegend'])
 
     def collectConfigs(self):
         self.config['xlim'] = [self.spXlim0.value(), self.spXlim1.value()]
@@ -60,7 +60,7 @@ class LinePlotterWindow( QMainWindow ):
         self.config['title'] = self.txtTitle.text()
         self.config['xlabel'] = self.txtXLabel.text()
         self.config['ylabel'] = self.txtYLabel.text()
-        self.config['showLegend'] = (self.chkShowLegend.checkState()==Qt.Checked)
+        self.config['showLegend'] = self.chkShowLegend.isChecked()
         
     @pyqtSlot()
     def on_actionSave_triggered(self):
