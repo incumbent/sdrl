@@ -39,7 +39,9 @@ class RepresentationFactory(object):
         elif name == 'IndependentDiscretization':
             return IndependentDiscretization(domain, discretization=config['discretization'])
         elif name == 'RBF':
-            pass
+            return RBF(domain, num_rbfs=config['num_rbfs'],
+                        resolution_max=25, resolution_min=25,
+                        const_feature=False, normalize=True)
 
 class PolicyFactory(object):
     @staticmethod
