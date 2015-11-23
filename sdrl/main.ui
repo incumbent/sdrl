@@ -108,7 +108,7 @@
                 <item>
                  <widget class="QSpinBox" name="spShowPerformance">
                   <property name="value">
-                   <number>1</number>
+                   <number>0</number>
                   </property>
                  </widget>
                 </item>
@@ -181,10 +181,10 @@
                 <number>1</number>
                </property>
                <property name="maximum">
-                <number>999999999</number>
+                <number>100</number>
                </property>
                <property name="value">
-                <number>50</number>
+                <number>1</number>
                </property>
               </widget>
              </item>
@@ -203,7 +203,7 @@
                 <number>999999999</number>
                </property>
                <property name="value">
-                <number>2000</number>
+                <number>10000</number>
                </property>
               </widget>
              </item>
@@ -242,7 +242,7 @@
                 </sizepolicy>
                </property>
                <property name="maximum">
-                <number>999999999</number>
+                <number>100</number>
                </property>
                <property name="value">
                 <number>10</number>
@@ -464,6 +464,22 @@
     <addaction name="actionMountainCar"/>
     <addaction name="actionAcrobot"/>
     <addaction name="actionSystemAdministrator"/>
+    <addaction name="actionFiniteTrackCartPole"/>
+    <addaction name="actionFiftyChain"/>
+    <addaction name="actionSwimmer"/>
+    <addaction name="actionPacman"/>
+    <addaction name="actionBicycle"/>
+    <addaction name="actionBlocksWorld"/>
+    <addaction name="actionPuddleWorld"/>
+    <addaction name="actionHelicopterHover"/>
+    <addaction name="actionHIVTreatment"/>
+    <addaction name="actionPST"/>
+    <addaction name="actionChainMDP"/>
+    <addaction name="actionFlipBoard"/>
+    <addaction name="actionInfCartPoleBalance"/>
+    <addaction name="actionIntruderMonitoring"/>
+    <addaction name="actionRCCar"/>
+    <addaction name="actionPinball"/>
    </widget>
    <widget class="QMenu" name="menu_3">
     <property name="title">
@@ -515,6 +531,96 @@
   <action name="actionSystemAdministrator">
    <property name="text">
     <string>SystemAdministrator</string>
+   </property>
+  </action>
+  <action name="actionFiftyChain">
+   <property name="text">
+    <string>FiftyChain</string>
+   </property>
+  </action>
+  <action name="actionSwimmer">
+   <property name="text">
+    <string>Swimmer</string>
+   </property>
+  </action>
+  <action name="actionSystemAdministrator_2">
+   <property name="text">
+    <string>SystemAdministrator</string>
+   </property>
+  </action>
+  <action name="actionPacman">
+   <property name="text">
+    <string>Pacman</string>
+   </property>
+  </action>
+  <action name="actionFiniteTrackCartPole">
+   <property name="text">
+    <string>FiniteTrackCartPole</string>
+   </property>
+  </action>
+  <action name="actionBicycle">
+   <property name="text">
+    <string>Bicycle</string>
+   </property>
+  </action>
+  <action name="actionCartPoleBase">
+   <property name="text">
+    <string>CartPoleBase</string>
+   </property>
+  </action>
+  <action name="actionBlocksWorld">
+   <property name="text">
+    <string>BlocksWorld</string>
+   </property>
+  </action>
+  <action name="actionPuddleWorld">
+   <property name="text">
+    <string>PuddleWorld</string>
+   </property>
+  </action>
+  <action name="actionHelicopterHover">
+   <property name="text">
+    <string>HelicopterHover</string>
+   </property>
+  </action>
+  <action name="actionHIVTreatment">
+   <property name="text">
+    <string>HIVTreatment</string>
+   </property>
+  </action>
+  <action name="actionPST">
+   <property name="text">
+    <string>PST</string>
+   </property>
+  </action>
+  <action name="actionChainMDP">
+   <property name="text">
+    <string>ChainMDP</string>
+   </property>
+  </action>
+  <action name="actionFlipBoard">
+   <property name="text">
+    <string>FlipBoard</string>
+   </property>
+  </action>
+  <action name="actionInfCartPoleBalance">
+   <property name="text">
+    <string>InfCartPoleBalance</string>
+   </property>
+  </action>
+  <action name="actionIntruderMonitoring">
+   <property name="text">
+    <string>IntruderMonitoring</string>
+   </property>
+  </action>
+  <action name="actionRCCar">
+   <property name="text">
+    <string>RCCar</string>
+   </property>
+  </action>
+  <action name="actionPinball">
+   <property name="text">
+    <string>Pinball</string>
    </property>
   </action>
  </widget>

@@ -5,25 +5,26 @@ from PyQt4.QtCore import *
 from PyQt4 import uic
 from sdrl.Gui import BaseFrame
 from sdrl.Gui.Utils import *
-from rlpy.Domains import MountainCar
+from rlpy.Domains import RCCar
+import matplotlib.pyplot as plt
 
-import numpy as np
 
-class MountainCarFrame( BaseFrame ):
+class RCCarFrame( BaseFrame ):
 
-    title = 'MountainCar'
+    title = 'RCCar'
 
-    def __init__(self, parent=None):
-        super( MountainCarFrame, self ).__init__(parent,
-            uifile=os.path.join(os.path.dirname(__file__), 'MountainCarFrame.ui'))	
-
+    def __init__( self, parent=None ):
+        super( RCCarFrame, self ).__init__(parent,
+            uifile=os.path.join(os.path.dirname(__file__), 'RCCarFrame.ui'))
+    
     def initConfig(self):
         self.agentConfig['QLearning'] = {'lambda':0., 'gamma':0.9, 'alpha':0.1, 'alpha_decay_mode':'boyan', 'boyan_N0':100}
         self.agentConfig['Sarsa'] = {'lambda':0., 'gamma':0.9, 'alpha':0.1, 'alpha_decay_mode':'boyan', 'boyan_N0':100}
+        self.agentConfig['Greedy_GQ'] = {'lambda':0., 'gamma':0.9, 'alpha':0.1, 'alpha_decay_mode':'boyan', 'boyan_N0':100}
         self.policyConfig['eGreedy'] = {'epsilon':0.2}
-        self.representationConfig['Tabular'] = {'discretization':20}
-        self.representationConfig['RBF'] = {'num_rbfs':206, 'resolution_max':8, 'resolution_min':8}
-        self.representationConfig['TilingCoding'] = {}
+        self.representationConfig['Tabular'] = {'discretization':10}
+        self.representationConfig['RBF'] = {'num_rbfs':600, 'resolution_max':8, 'resolution_min':8}
+        self.representationConfig['iFDD'] = {'discretization':20}
 
     @pyqtSlot()
     def on_btnConfigAgent_clicked(self):
@@ -39,20 +40,18 @@ class MountainCarFrame( BaseFrame ):
 
 
     def makeComponents(self):
+        noise = float(self.spNoise.value())
+        domain = RCCar( noise=noise )       
+        domain.GOAL = [float(self.spGoal_X.value()),float(self.spGoal_Y.value())]
+        domain.GOAL_RADIUS = float(self.spGoalRadius.value())
+        domain.ROOM_WIDTH = float(self.spRoomWidth.value())
+        domain.ROOM_HEIGHT = float(self.spRoomHeight.value())        
+        domain.GOAL_REWARD = float(self.spGoalReward.value())        
+        domain.STEP_REWARD = float(self.spStepReward.value())
+        domain.CAR_LENGTH = float(self.spCarLength.value())
+        domain.CAR_WIDTH = float(self.spCarWidth.value())
+        domain.delta_t = float(self.spDeltaT.value())
         
-        #Define a Domain of MountainCar
-        noise = float(self.dblSpinVelNoise.value())
-        domain = MountainCar(noise=noise)
-
-        domain.XMIN = float(self.dblSpinleftPos.value())  # : Lower bound on domain position
-        domain.XMAX = float(self.dblSpinRightPos.value())  #: Upper bound on domain position
-        domain.XDOTMIN = float(self.dblSpinMinVelocity.value())  # : Lower bound on car velocity
-        domain.XDOTMAX = float(self.dblSpinMaxVelocity.value())  #: Upper bound on car velocity
-        domain.INIT_STATE = np.array([float(self.dblSpinInitPos.value()), float(self.dblSpinInitVelocity.value())])  # : Initial car state
-        #: X-Position of the goal location (Should be at/near hill peak)
-        domain.GOAL = float(self.dblSpinGoal.value())
-
-
         representation = RepresentationFactory.get(config=self.representationConfig,
             name=str(self.lstRepresentation.currentItem().text()),
             domain=domain)
@@ -65,5 +64,6 @@ class MountainCarFrame( BaseFrame ):
             name=str(self.lstAgent.currentItem().text()),
             representation=representation,
             policy=policy)
-        
+
         return domain, agent
+

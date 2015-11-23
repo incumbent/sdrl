@@ -2,7 +2,12 @@
 from sdrl.Gui.Agents.CommonAgentDialog import CommonAgentDialog
 from sdrl.Gui.Representations.RBF import RBFDialog
 from sdrl.Gui.Representations.Tabular import TabularDialog
+from sdrl.Gui.Representations.KernelizediFDD import KernelizediFDDDialog
+from sdrl.Gui.Representations.iFDD import iFDDDialog
+from sdrl.Gui.Representations.TileCoding import TileCodingDialog
 from sdrl.Gui.Policies.eGreedy import eGreedyDialog
+from sdrl.Gui.Policies.SwimmerPolicy import SwimmerPolicyDialog
+
 
 from rlpy.Representations import *
 from rlpy.Agents import *
@@ -20,9 +25,13 @@ DialogMapping = {'QLearning':CommonAgentDialog,
                  'Greedy_GQ':CommonAgentDialog,
                  'RBF':RBFDialog,
                  'Tabular':TabularDialog,
+                 'KernelizediFDD':KernelizediFDDDialog,
                  'IncrementalTabular':TabularDialog,
                  'IndependentDiscretization':TabularDialog,
+                 'TileCoding':TileCodingDialog,
+                 'iFDD':iFDDDialog,
                  'eGreedy':eGreedyDialog,
+                 'SwimmerPolicy':SwimmerPolicyDialog,
                  'UniformRandom':None,
                  'Gibbs':None,
                  }
@@ -40,8 +49,21 @@ class RepresentationFactory(object):
             return IndependentDiscretization(domain, discretization=config['discretization'])
         elif name == 'RBF':
             return RBF(domain, num_rbfs=config['num_rbfs'],
-                        resolution_max=25, resolution_min=25,
-                        const_feature=False, normalize=True)
+                         resolution_max=config['resolution_max'], resolution_min=config['resolution_min'],
+                         const_feature=False, normalize=True, seed=1)
+        elif name == 'KernelizediFDD':
+            return KernelizediFDD(domain,sparsify=config['sparsify'],
+                                  kernel=config['kernel'],kernel_args=config['kernel_args'],
+                                  active_threshold=config['active_threshold'],
+                                  discover_threshold=config['discover_threshold'],
+                                  max_active_base_feat=config['max_active_base_feat'],
+                                  max_base_feat_sim=config['max_base_feat_sim'])
+        elif name == 'iFDD':
+            initial_rep = IndependentDiscretization(domain)
+            return iFDD(domain, discovery_threshold=config['discover_threshold'],initial_representation=initial_rep,discretization=config['discretization'],iFDDPlus=1 - 1e-7)
+        elif name == 'TileCoding':
+            return TileCoding(domain, memory = config['memory'], num_tilings=config['num_tilings'])
+
 
 class PolicyFactory(object):
     @staticmethod
@@ -54,6 +76,8 @@ class PolicyFactory(object):
             return UniformRandom(representation)
         elif name == 'Gibbs':
             return GibbsPolicy(representation)
+        elif name == 'SwimmerPolicy':
+            return SwimmerPolicy.SwimmerPolicy(representation, epsilon=config['epsilon'])       
 
 class AgentFactory(object):
     @staticmethod
@@ -75,7 +99,6 @@ class AgentFactory(object):
             return AgentFactory._commonAgentGet(config, name, representation, policy, SARSA)
         elif name == 'Greedy_GQ':
             return AgentFactory._commonAgentGet(config, name, representation, policy, Greedy_GQ)
-
 
 class ExperimentFactory(object):
     @staticmethod

@@ -18,6 +18,24 @@ from PyQt4 import uic
 from sdrl.Gui.Domains.GridWorld import GridWorldFrame
 from sdrl.Gui.Domains.MountainCar import MountainCarFrame
 from sdrl.Gui.Domains.SystemAdministrator import SystemAdministratorFrame
+from sdrl.Gui.Domains.FiftyChain import FiftyChainFrame
+from sdrl.Gui.Domains.Pacman import PacmanFrame
+from sdrl.Gui.Domains.FiniteTrackCartPole import FiniteTrackCartPoleFrame
+from sdrl.Gui.Domains.Swimmer import SwimmerFrame
+from sdrl.Gui.Domains.Acrobot import AcrobotFrame
+from sdrl.Gui.Domains.Bicycle import BicycleFrame
+from sdrl.Gui.Domains.BlocksWorld import BlocksWorldFrame
+from sdrl.Gui.Domains.PuddleWorld import PuddleWorldFrame
+from sdrl.Gui.Domains.HelicopterHover import HelicopterHoverFrame
+from sdrl.Gui.Domains.HIVTreatment import HIVTreatmentFrame
+from sdrl.Gui.Domains.PST import PSTFrame
+from sdrl.Gui.Domains.ChainMDP import ChainMDPFrame
+from sdrl.Gui.Domains.FlipBoard import FlipBoardFrame
+from sdrl.Gui.Domains.InfCartPoleBalance import InfCartPoleBalanceFrame
+from sdrl.Gui.Domains.IntruderMonitoring import IntruderMonitoringFrame
+from sdrl.Gui.Domains.RCCar import RCCarFrame
+from sdrl.Gui.Domains.Pinball import PinballFrame
+
 from sdrl.Gui import *
 from sdrl.Gui.Utils import ExperimentFactory
 
@@ -59,26 +77,87 @@ class MainForm( QMainWindow ):
         d.setModal(True)
         d.show()
 
-    '''菜单-GridWorld'''
+    '''菜单-实验'''
     @pyqtSlot()
     def on_actionGridWorld_triggered(self):
         self.openExperimentTab(GridWorldFrame)
     
-    '''菜单-MountainCar'''
     @pyqtSlot()
     def on_actionMountainCar_triggered(self):
         self.openExperimentTab(MountainCarFrame)
     
-    '''菜单-Acrobot'''
     @pyqtSlot()
     def on_actionAcrobot_triggered(self):
         self.openExperimentTab(AcrobotFrame)
 
-    '''菜单-SystemAdministrator'''
     @pyqtSlot()
     def on_actionSystemAdministrator_triggered(self):
         self.openExperimentTab(SystemAdministratorFrame)
 
+    @pyqtSlot()
+    def on_actionFiftyChain_triggered(self):
+        self.openExperimentTab(FiftyChainFrame)
+
+    @pyqtSlot()
+    def on_actionSwimmer_triggered(self):
+        self.openExperimentTab(SwimmerFrame)
+
+    @pyqtSlot()
+    def on_actionPacman_triggered(self):
+        self.openExperimentTab(PacmanFrame)
+
+    @pyqtSlot()
+    def on_actionFiniteTrackCartPole_triggered(self):
+        self.openExperimentTab(FiniteTrackCartPoleFrame)
+
+    @pyqtSlot()
+    def on_actionBicycle_triggered(self):
+        self.openExperimentTab(BicycleFrame)
+
+    @pyqtSlot()
+    def on_actionBlocksWorld_triggered(self):
+        self.openExperimentTab(BlocksWorldFrame)
+
+    @pyqtSlot()
+    def on_actionPuddleWorld_triggered(self):
+        self.openExperimentTab(PuddleWorldFrame)
+
+    @pyqtSlot()
+    def on_actionHelicopterHover_triggered(self):
+        self.openExperimentTab(HelicopterHoverFrame)
+
+    @pyqtSlot()
+    def on_actionHIVTreatment_triggered(self):
+        self.openExperimentTab(HIVTreatmentFrame)
+
+    @pyqtSlot()
+    def on_actionPST_triggered(self):
+        self.openExperimentTab(PSTFrame)
+       
+    @pyqtSlot()
+    def on_actionChainMDP_triggered(self):
+        self.openExperimentTab(ChainMDPFrame)
+        
+    @pyqtSlot()    
+    def on_actionFlipBoard_triggered(self):
+        self.openExperimentTab(FlipBoardFrame)
+
+    @pyqtSlot()
+    def on_actionInfCartPoleBalance_triggered(self):
+        self.openExperimentTab(InfCartPoleBalanceFrame)
+
+    @pyqtSlot()
+    def on_actionIntruderMonitoring_triggered(self):
+        self.openExperimentTab(IntruderMonitoringFrame)
+
+    @pyqtSlot()
+    def on_actionRCCar_triggered(self):
+        self.openExperimentTab(RCCarFrame)
+
+    @pyqtSlot()
+    def on_actionPinball_triggered(self):
+        self.openExperimentTab(PinballFrame)
+        
     '''菜单-画平面折线图'''
     @pyqtSlot()
     def on_actionLinePlotter_triggered(self):

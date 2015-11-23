@@ -1,34 +1,34 @@
-#-*- coding: utf-8 -*-
+#-*- coding: utf-8 -*- 
 import os
 from PyQt4.QtGui import * 
 from PyQt4.QtCore import *
 from PyQt4 import uic
 from sdrl.Gui import BaseFrame
 from sdrl.Gui.Utils import *
-from rlpy.Domains import SystemAdministrator
+from rlpy.Domains import PST
 
 
-class SystemAdministratorFrame( BaseFrame ):
+class PSTFrame( BaseFrame ):
 
-    title = 'SystemAdministrator'
+    title = 'PST'
 
     def __init__( self, parent=None ):
-        super( SystemAdministratorFrame, self ).__init__(parent,
-            uifile=os.path.join(os.path.dirname(__file__), 'SystemAdministratorFrame.ui'))
+        super( PSTFrame, self ).__init__(parent,
+            uifile=os.path.join(os.path.dirname(__file__), 'PSTFrame.ui'))
     
     def initConfig(self):
-        self.agentConfig['QLearning'] = {'lambda':0.9, 'gamma':0.95, 'alpha':.06, 'alpha_decay_mode':'boyan', 'boyan_N0':120}
-        self.agentConfig['Sarsa'] = {'lambda':0.9, 'gamma':0.95, 'alpha':.06, 'alpha_decay_mode':'boyan', 'boyan_N0':120}
-        self.agentConfig['Greedy_GQ'] = {'lambda':0.9, 'gamma':0.95, 'alpha':.06, 'alpha_decay_mode':'boyan', 'boyan_N0':120}
+        self.agentConfig['QLearning'] = {'lambda':0., 'gamma':0.9, 'alpha':0.62267772, 'alpha_decay_mode':'boyan', 'boyan_N0':3571.6541}
+        self.agentConfig['Sarsa'] = {'lambda':0., 'gamma':0.9, 'alpha':0.62267772, 'alpha_decay_mode':'boyan', 'boyan_N0':3571.6541}
+        self.agentConfig['Greedy_GQ'] = {'lambda':0., 'gamma':0.9, 'alpha':0.965830, 'alpha_decay_mode':'boyan', 'boyan_N0':3019.313}
         self.policyConfig['eGreedy'] = {'epsilon':0.1}
         self.representationConfig['Tabular'] = {'discretization':20}
-        self.representationConfig['IncrementalTabular'] = {'discretization':20}
         self.representationConfig['IndependentDiscretization'] = {'discretization':20}
-        self.experimentConfig['episodeCap'] = 200
-        self.experimentConfig["maxSteps"] = 100000
-        self.experimentConfig["policyChecks"] = 10
-        self.experimentConfig["checksPerPolicy"] = 1
-
+        self.representationConfig['iFDD'] = {'discretization':20, 'discover_threshold':1204}
+        self.experimentConfig["maxSteps"] = 500000
+        self.experimentConfig["episodeCap"] = 1000
+        self.experimentConfig["policyChecks"] = 30
+        self.experimentConfig["checksPerPolicy"] = 10
+        
     @pyqtSlot()
     def on_btnConfigAgent_clicked(self):
         self.showDialogByName( str(self.lstAgent.currentItem().text()), self.agentConfig )
@@ -43,12 +43,8 @@ class SystemAdministratorFrame( BaseFrame ):
 
 
     def makeComponents(self):
-        map_type = str(self.lstMap.currentItem().text())
-        domain = SystemAdministrator(networkmapname=os.path.join(
-                SystemAdministrator.default_map_dir, map_type+'.txt'))
-        domain.P_SELF_REPAIR = self.spSelfRepairProb.value()
-        domain.P_REBOOT_REPAIR = self.spRobotRepairProb.value()
-        domain.REBOOT_REWARD = self.spRobotReward.value()
+        NUM_UAV = int(self.spNum.value())
+        domain = PST(NUM_UAV=NUM_UAV)
 
         representation = RepresentationFactory.get(config=self.representationConfig,
             name=str(self.lstRepresentation.currentItem().text()),

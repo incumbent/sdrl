@@ -9,5 +9,7 @@ class RBFDialog( BaseDialog ):
     def __init__( self, parent, config ):
         super( RBFDialog, self ).__init__(parent, config,
             uifile=os.path.join(os.path.dirname(__file__), 'RBFDialog.ui'))
-        self.configSpinBoxes = {'num_rbfs':self.spNumRbfs}
+        self.configSpinBoxes = {'num_rbfs':self.spNumRbfs,
+                                'resolution_max': self.spResolutionMax,
+                                'resolution_min': self.spResolutionMin}
         self.applyConfig()
